@@ -1,0 +1,191 @@
+:root {
+  --bg: #0c0f19;
+  --card: #171b2a;
+  --card2: #20263a;
+  --text: #f6f7fb;
+  --muted: #a7adbd;
+  --line: #30384f;
+  --accent: #f6c453;
+  --danger: #ff6b6b;
+  --ok: #45d483;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+a { color: inherit; text-decoration: none; }
+
+.container { width: min(1120px, 100%); margin: 0 auto; padding: 20px; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.title { font-size: 26px; font-weight: 800; letter-spacing: 0.02em; }
+.subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.nav { display: flex; gap: 10px; flex-wrap: wrap; }
+.nav a, .button { background: var(--card2); border: 1px solid var(--line); color: var(--text); border-radius: 12px; padding: 10px 14px; font-weight: 700; cursor: pointer; }
+.button.primary { background: var(--accent); color: #191200; border: 0; }
+.button.danger { background: var(--danger); color: white; border: 0; }
+.button:disabled { opacity: .45; cursor: not-allowed; }
+.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+.card h2 { margin: 0 0 12px; font-size: 18px; }
+.label { color: var(--muted); font-size: 12px; margin-bottom: 6px; display:block; }
+.input, .select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: #0f1320; color: var(--text); font-size: 16px; margin-bottom: 10px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th, .table td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+.table th { color: var(--muted); font-size: 12px; }
+.rank1 { color: var(--accent); font-weight: 900; }
+.badge { display: inline-flex; align-items: center; border: 1px solid var(--line); background: var(--card2); border-radius: 999px; padding: 5px 9px; font-size: 12px; color: var(--muted); }
+.point { font-weight: 900; color: var(--accent); }
+.notice { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.gachaBox { text-align: center; padding: 18px; border-radius: 18px; background: linear-gradient(135deg, #2b2135, #101525); border: 1px solid var(--line); }
+.gachaRank { font-size: 54px; font-weight: 1000; color: var(--accent); margin: 8px 0; }
+@media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .col-4,.col-5,.col-6,.col-7,.col-8,.col-12 { grid-column: span 1; } .header { align-items:flex-start; flex-direction: column; } }
+
+/* V2 gacha effects */
+.gachaResultCard { overflow: hidden; }
+.gachaBox {
+  position: relative;
+  min-height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  isolation: isolate;
+  overflow: hidden;
+}
+.gachaBox::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background: conic-gradient(from 0deg, transparent, rgba(246,196,83,.22), transparent, rgba(76,151,255,.18), transparent);
+  animation: slowSpin 8s linear infinite;
+  z-index: -2;
+}
+.gachaBox::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.12), transparent 35%), linear-gradient(135deg, #2b2135, #101525 70%);
+  z-index: -1;
+}
+.gachaBox.is-drawing { animation: screenShake .16s linear infinite; }
+.gachaStageLabel { font-weight: 900; color: var(--accent); letter-spacing: .08em; margin-bottom: 10px; }
+.gachaMachine {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  margin: 6px auto 14px;
+  background: radial-gradient(circle at 35% 28%, #fff9, transparent 18%), radial-gradient(circle, #f6c453 0 22%, #ff6b6b 23% 38%, #2b65ff 39% 52%, #1a2035 53% 100%);
+  box-shadow: 0 0 24px rgba(246,196,83,.65), inset 0 0 30px rgba(255,255,255,.25);
+  animation: gachaSpin .42s linear infinite;
+}
+.gachaGlow {
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(246,196,83,.45), transparent 65%);
+  animation: pulseGlow .7s ease-in-out infinite alternate;
+}
+.gachaOrb {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  box-shadow: inset 0 3px 8px rgba(255,255,255,.45), 0 6px 16px rgba(0,0,0,.35);
+}
+.orb1 { background: #ff6b6b; left: 26px; top: 38px; }
+.orb2 { background: #45d483; right: 24px; top: 54px; }
+.orb3 { background: #f6c453; left: 58px; bottom: 24px; }
+.gachaCapsule {
+  position: absolute;
+  width: 58px;
+  height: 34px;
+  border-radius: 999px;
+  left: 46px;
+  top: 58px;
+  background: linear-gradient(90deg, #fff 0 50%, #ff4d75 51% 100%);
+  border: 3px solid rgba(20,20,30,.35);
+  animation: capsuleBounce .36s ease-in-out infinite alternate;
+}
+.drumroll { font-size: 24px; font-weight: 1000; letter-spacing: .12em; color: #fff; text-shadow: 0 0 14px rgba(246,196,83,.9); }
+.loadingDots span {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 10px 4px 0;
+  animation: dotJump .6s ease-in-out infinite alternate;
+}
+.loadingDots span:nth-child(2) { animation-delay: .12s; }
+.loadingDots span:nth-child(3) { animation-delay: .24s; }
+.resultBurst {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,.5), rgba(246,196,83,.25) 30%, transparent 68%);
+  border-radius: 50%;
+  animation: burst .85s ease-out forwards;
+  pointer-events: none;
+}
+.resultBadge { color: #fff; border-color: rgba(255,255,255,.2); }
+.rankSub { font-size: 12px; font-weight: 1000; letter-spacing: .16em; color: var(--muted); margin-top: 8px; }
+.resultPoint { font-size: 30px; text-shadow: 0 0 18px rgba(246,196,83,.75); }
+.resultText { margin: 10px 0 0; color: #fff; font-size: 13px; font-weight: 800; }
+.rank-s .gachaBox { box-shadow: 0 0 38px rgba(246,196,83,.45), inset 0 0 40px rgba(246,196,83,.12); }
+.rank-s .gachaRank { color: #ffe17a; text-shadow: 0 0 22px rgba(246,196,83,1), 0 0 52px rgba(255,107,107,.8); animation: jackpotPop .8s ease-out; }
+.rank-a .gachaRank { color: #ff8f45; text-shadow: 0 0 20px rgba(255,143,69,.9); animation: jackpotPop .7s ease-out; }
+.rank-b .gachaRank { color: #7ab8ff; text-shadow: 0 0 16px rgba(122,184,255,.8); }
+.rank-c .gachaRank { color: #7dffad; }
+.rank-d .gachaRank { color: var(--accent); }
+.confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.confetti i {
+  --x: calc((var(--i) * 37) % 100);
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: -18px;
+  width: 9px;
+  height: 15px;
+  border-radius: 2px;
+  background: hsl(calc(var(--i) * 47), 92%, 62%);
+  animation: confettiFall 1.8s ease-out forwards;
+  animation-delay: calc((var(--i) % 7) * .045s);
+  transform: rotate(calc(var(--i) * 23deg));
+}
+.gachaButtonRow { align-items: stretch; }
+.gachaButton {
+  position: relative;
+  overflow: hidden;
+  min-height: 54px;
+  font-size: 16px;
+  box-shadow: 0 12px 28px rgba(246,196,83,.18);
+}
+.buttonShine {
+  position: absolute;
+  inset: -120% auto auto -30%;
+  width: 42%;
+  height: 320%;
+  transform: rotate(25deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  animation: buttonShine 2.4s ease-in-out infinite;
+}
+
+@keyframes slowSpin { to { transform: rotate(360deg); } }
+@keyframes gachaSpin { to { transform: rotate(360deg) scale(1.02); } }
+@keyframes pulseGlow { from { opacity: .45; transform: scale(.92); } to { opacity: 1; transform: scale(1.06); } }
+@keyframes capsuleBounce { from { transform: rotate(-12deg) translateY(-4px); } to { transform: rotate(12deg) translateY(6px); } }
+@keyframes screenShake { 0%,100% { transform: translate(0,0); } 25% { transform: translate(1px,-1px); } 50% { transform: translate(-1px,1px); } 75% { transform: translate(1px,1px); } }
+@keyframes dotJump { from { transform: translateY(0); opacity: .45; } to { transform: translateY(-8px); opacity: 1; } }
+@keyframes burst { from { transform: translate(-50%, -50%) scale(.25); opacity: 1; } to { transform: translate(-50%, -50%) scale(1.75); opacity: 0; } }
+@keyframes jackpotPop { 0% { transform: scale(.6) rotate(-4deg); opacity: 0; } 65% { transform: scale(1.18) rotate(2deg); opacity: 1; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes confettiFall { to { transform: translateY(320px) rotate(760deg); opacity: 0; } }
+@keyframes buttonShine { 0% { left: -55%; } 45%,100% { left: 120%; } }
